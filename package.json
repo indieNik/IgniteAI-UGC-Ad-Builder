@@ -1,0 +1,23 @@
+{
+    "name": "igniteai-monorepo",
+    "version": "1.0.0",
+    "description": "IgniteAI Landing & App Monorepo",
+    "private": true,
+    "scripts": {
+        "sync-content": "node tools/sync-content.js",
+        "build:landing": "npm run sync-content && cd projects/landing && npm run build",
+        "build:app": "npm run sync-content && cd projects/frontend && npm run build",
+        "deploy:landing": "npm run build:landing && firebase deploy --only hosting:landing",
+        "deploy:app": "npm run build:app && firebase deploy --only hosting:app",
+        "deploy:all": "npm run build:landing && npm run build:app && firebase deploy --only hosting",
+        "dev:landing": "cd projects/landing && npm run dev",
+        "dev:app": "cd projects/frontend && npm start"
+    },
+    "keywords": [
+        "igniteai",
+        "ugc",
+        "video",
+        "ai"
+    ],
+    "author": "The Jaggery Point"
+}

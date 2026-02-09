@@ -1,0 +1,12 @@
+{
+    "version": 2,
+    "buildCommand": "cd projects/frontend && npm install && npm run build",
+    "outputDirectory": "projects/frontend/dist/frontend",
+    "rewrites": [
+        {
+            "source": "/api/(.*)",
+            "destination": "/api/index.py"
+        }
+    ],
+    "framework": "angular"
+}

@@ -1,0 +1,17 @@
+{
+    "bgm_required": true,
+    "voice_required": true,
+    "voiceover_required": true,
+    "target_duration": "12s",
+    "aspect_ratio": "9:16",
+    "language": "English",
+    "platform_style": "Instagram Reels",
+    "brand_safety": "High",
+    "veo_max_duration": 8.0,
+    "geography": "India",
+    "image_provider": "openai",
+    "video_model": "veo-3.1-fast-generate-preview",
+    "backup_video_model": "veo-3.0-fast-generate-001",
+    "image_model": "gemini-2.5-flash-image",
+    "backup_image_model": "imagen-4.0-generate-001"
+}

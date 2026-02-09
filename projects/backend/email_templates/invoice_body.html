@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style type="text/css">
+        /* Client-specific styles */
+        body,
+        table,
+        td,
+        a {
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+        }
+
+        table,
+        td {
+            mso-table-lspace: 0pt;
+            mso-table-rspace: 0pt;
+        }
+
+        img {
+            -ms-interpolation-mode: bicubic;
+        }
+
+        /* Reset styles */
+        body {
+            height: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100% !important;
+        }
+
+        /* Typography */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f9fafb;
+            color: #1f2937;
+        }
+
+        /* Layout */
+        .wrapper {
+            width: 100%;
+            table-layout: fixed;
+            background-color: #f9fafb;
+            padding-bottom: 40px;
+        }
+
+        .main-container {
+            margin: 0 auto;
+            max-width: 600px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        /* Header */
+        .header {
+            background-color: #6366F1;
+            padding: 24px;
+            text-align: center;
+            background-image: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
+        }
+
+        .logo-text {
+            color: #ffffff;
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        /* Content */
+        .content {
+            padding: 32px 32px;
+        }
+
+        .title {
+            margin-top: 0;
+            margin-bottom: 24px;
+            font-size: 20px;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .text {
+            font-size: 16px;
+            line-height: 24px;
+            color: #4b5563;
+            margin-bottom: 24px;
+        }
+
+        .highlight-box {
+            background-color: #f3f4f6;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .info-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-label {
+            color: #6b7280;
+            font-weight: 500;
+        }
+
+        .info-value {
+            color: #111827;
+            font-weight: 600;
+        }
+
+        /* Button */
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #6366F1;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 16px;
+            text-align: center;
+            transition: background-color 0.2s;
+        }
+
+        .btn:hover {
+            background-color: #4f46e5;
+        }
+
+        .btn-container {
+            text-align: center;
+            margin-top: 32px;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 24px;
+            text-align: center;
+            font-size: 12px;
+            color: #9ca3af;
+            background-color: #f9fafb;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .social-links {
+            margin-bottom: 16px;
+        }
+
+        .footer-link {
+            color: #6366F1;
+            text-decoration: none;
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body>
+    <table class="wrapper" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+            <td align="center">
+                <table class="main-container" cellpadding="0" cellspacing="0" border="0" width="100%">
+                    <!-- Header -->
+                    <tr>
+                        <td class="header">
+                            <div class="logo-text">IgniteAI</div>
+                        </td>
+                    </tr>
+
+                    <!-- Content -->
+                    <tr>
+                        <td class="content">
+                            <h1 class="title">Payment Successful</h1>
+                            <p class="text">Hi {{ user_name }},</p>
+                            <p class="text">Thank you for your payment. We've attached your invoice for the <strong>{{
+                                    plan_name }}</strong> plan to this email.</p>
+
+                            <div class="highlight-box">
+                                <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                                    <tr>
+                                        <td style="padding-bottom: 8px;">
+                                            <span class="info-label">Invoice Number</span>
+                                        </td>
+                                        <td style="text-align: right; padding-bottom: 8px;">
+                                            <span class="info-value">{{ invoice_number }}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding-bottom: 8px;">
+                                            <span class="info-label">Date</span>
+                                        </td>
+                                        <td style="text-align: right; padding-bottom: 8px;">
+                                            <span class="info-value">{{ date }}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span class="info-label">Amount</span>
+                                        </td>
+                                        <td style="text-align: right;">
+                                            <span class="info-value">{{ currency }} {{ amount }}</span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <p class="text">You can view your full transaction history and manage your subscription in
+                                your dashboard.</p>
+
+                            <div class="btn-container">
+                                <a href="{{ frontend_url }}/projects" class="btn">Go to Dashboard</a>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Footer -->
+                    <tr>
+                        <td class="footer">
+                            <p style="margin-bottom: 8px;">{{ business_name }}<br>{{ business_address }}</p>
+                            <p>Questions? <a href="mailto:{{ support_email }}" class="footer-link">Contact Support</a>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>

@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Scene Regenerated - IgniteAI{% endblock %}
+
+{% block content %}
+<h1>Your {{ scene_name }} Scene Has Been Regenerated! 🔄</h1>
+
+<p>Hi {{ user_name }},</p>
+
+<p>Good news! We've successfully regenerated the <strong>{{ scene_name }}</strong> scene for your video.</p>
+
+<div class="stats" style="margin: 30px 0;">
+    <table role="presentation" width="100%" cellspacing="10" cellpadding="0" border="0">
+        <tr>
+            <td class="stat-item" style="width: 50%;">
+                <span class="stat-value">{{ credits_used }}</span>
+                <span class="stat-label">Credits Used</span>
+            </td>
+            <td class="stat-item" style="width: 50%;">
+                <span class="stat-value">{{ new_balance }}</span>
+                <span class="stat-label">Credits Remaining</span>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div class="info-box">
+    <p><strong>✓ Your updated video is ready!</strong></p>
+    <p style="margin-top: 8px;">The new {{ scene_name }} scene has been integrated into your video. Download the updated
+        version from your dashboard.</p>
+</div>
+
+<center>
+    <a href="{{ video_url }}" class="button">Download Updated Video</a>
+    <a href="{{ dashboard_url }}" class="button"
+        style="background: #ffffff; color: #8B5CF6 !important; border: 2px solid #8B5CF6; margin-left: 10px;">View in
+        Dashboard</a>
+</center>
+
+<h2 style="font-size: 20px; margin-top: 40px;">Not Satisfied Yet?</h2>
+
+<p>You can regenerate any scene as many times as you need (2 credits per regeneration) until you get the perfect result.
+</p>
+
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin: 20px 0;">
+    <tr>
+        <td style="padding: 10px 0;">
+            <strong>Hook</strong> - Grab attention in the first 3 seconds
+        </td>
+    </tr>
+    <tr>
+        <td style="padding: 10px 0;">
+            <strong>Feature</strong> - Showcase your product's key benefit
+        </td>
+    </tr>
+    <tr>
+        <td style="padding: 10px 0;">
+            <strong>Lifestyle</strong> - Create emotional connection
+        </td>
+    </tr>
+    <tr>
+        <td style="padding: 10px 0;">
+            <strong>Call-to-Action</strong> - Drive conversions
+        </td>
+    </tr>
+</table>
+
+<p style="margin-top: 30px; font-size: 14px; color: #6b7280;">
+    Run ID: <code style="background-color: #f3f4f6; padding: 2px 6px; border-radius: 4px;">{{ run_id }}</code>
+</p>
+
+<p style="margin-top: 30px;">
+    Happy creating! 🚀<br>
+    <strong>The IgniteAI Team</strong>
+</p>
+{% endblock %}

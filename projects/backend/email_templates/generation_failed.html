@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Issue with Your Video Generation - IgniteAI{% endblock %}
+
+{% block content %}
+<h1>We Encountered an Issue</h1>
+
+<p>Hi {{ user_name }},</p>
+
+<p>We're sorry, but we encountered an issue while generating your video for <strong>{{ project_name }}</strong>.</p>
+
+<div class="info-box" style="border-left-color: #EF4444;">
+    <p><strong>What happened:</strong></p>
+    <p style="margin-top: 8px;">{{ error_message }}</p>
+</div>
+
+<div class="info-box" style="border-left-color: #10B981; margin-top: 20px;">
+    <p><strong>✓ Good news: Your credits have been refunded!</strong></p>
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-top: 10px;">
+        <tr>
+            <td style="width: 50%;">
+                <p style="margin: 0;"><strong>Credits Refunded:</strong></p>
+            </td>
+            <td style="width: 50%; text-align: right;">
+                <p style="margin: 0; color: #10B981; font-weight: 600;">+{{ credits_refunded }} credits</p>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding-top: 5px;">
+                <p style="margin: 0;"><strong>New Balance:</strong></p>
+            </td>
+            <td style="text-align: right; padding-top: 5px;">
+                <p style="margin: 0; font-weight: 600;">{{ new_balance }} credits</p>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<h2 style="font-size: 20px; margin-top: 30px;">What You Can Do:</h2>
+
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin: 20px 0;">
+    <tr>
+        <td style="padding: 15px 0;">
+            <strong>🔄 Try again</strong>
+            <p style="margin: 5px 0 0 0; color: #6b7280;">Most issues are temporary. Try generating your video again -
+                your credits are safe!</p>
+        </td>
+    </tr>
+    <tr>
+        <td style="padding: 15px 0;">
+            <strong>📧 Contact support</strong>
+            <p style="margin: 5px 0 0 0; color: #6b7280;">If the issue persists, our team is here to help. We typically
+                respond within 24 hours.</p>
+        </td>
+    </tr>
+    <tr>
+        <td style="padding: 15px 0;">
+            <strong>📊 Check system status</strong>
+            <p style="margin: 5px 0 0 0; color: #6b7280;">See if there are any known issues affecting our service</p>
+        </td>
+    </tr>
+</table>
+
+<center>
+    <a href="{{ retry_url }}" class="button">Try Again</a>
+    <a href="{{ support_url }}" class="button"
+        style="background: #ffffff; color: #8B5CF6 !important; border: 2px solid #8B5CF6; margin-left: 10px;">Contact
+        Support</a>
+</center>
+
+<p style="margin-top: 30px; font-size: 14px; color: #6b7280;">
+    Run ID: <code style="background-color: #f3f4f6; padding: 2px 6px; border-radius: 4px;">{{ run_id }}</code><br>
+    <em>Please include this ID if you contact support</em>
+</p>
+
+<p style="margin-top: 30px;">
+    We apologize for the inconvenience and appreciate your patience.<br>
+    <strong>The IgniteAI Team</strong>
+</p>
+{% endblock %}

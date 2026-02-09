@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}Your Video is Ready! - IgniteAI{% endblock %}
+
+{% block content %}
+<h1>Your Video is Ready! 🎉</h1>
+
+<p>Hi {{ user_name }},</p>
+
+<p>Exciting news! Your video for <strong>{{ project_name }}</strong> has been successfully created and is ready to
+    download.</p>
+
+<!-- Video Preview -->
+<div style="margin: 30px 0; text-align: center;">
+    <div style="background-color: #f3f4f6; padding: 20px; border-radius: 12px;">
+        <p style="margin: 0 0 15px 0; font-size: 14px; color: #6b7280;">Video Preview</p>
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+            <tr>
+                <td align="center">
+                    <a href="{{ video_url }}" style="display: inline-block; text-decoration: none;">
+                        <table role="presentation" cellspacing="0" cellpadding="0" border="0"
+                            style="width: 300px; height: 533px; background: linear-gradient(135deg, #8B5CF6 0%, #3B82F6 100%); border-radius: 8px;">
+                            <tr>
+                                <td align="center" valign="middle">
+                                    <table role="presentation" cellspacing="0" cellpadding="0" border="0"
+                                        style="width: 80px; height: 80px; background-color: rgba(255,255,255,0.9); border-radius: 50%;">
+                                        <tr>
+                                            <td align="center" valign="middle">
+                                                <div
+                                                    style="width: 0; height: 0; border-left: 25px solid #8B5CF6; border-top: 15px solid transparent; border-bottom: 15px solid transparent; margin-left: 8px;">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </a>
+                </td>
+            </tr>
+        </table>
+        <p style="margin: 15px 0 0 0; font-size: 12px; color: #9ca3af;">Click to view video</p>
+    </div>
+</div>
+
+<!-- Stats -->
+<div class="stats" style="margin: 30px 0;">
+    <table role="presentation" width="100%" cellspacing="10" cellpadding="0" border="0">
+        <tr>
+            <td class="stat-item" style="width: 25%;">
+                <span class="stat-value" style="font-size: 24px;">{{ duration }}</span>
+                <span class="stat-label">Duration</span>
+            </td>
+            <td class="stat-item" style="width: 25%;">
+                <span class="stat-value" style="font-size: 24px;">{{ scenes }}</span>
+                <span class="stat-label">Scenes</span>
+            </td>
+            <td class="stat-item" style="width: 25%;">
+                <span class="stat-value" style="font-size: 24px;">{{ credits_used }}</span>
+                <span class="stat-label">Credits</span>
+            </td>
+            <td class="stat-item" style="width: 25%;">
+                <span class="stat-value" style="font-size: 24px;">{{ generation_time }}</span>
+                <span class="stat-label">Time</span>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<!-- Action Buttons -->
+<center>
+    <a href="{{ download_url }}" class="button" style="margin: 10px;">Download Video (MP4)</a>
+    <a href="{{ dashboard_url }}" class="button"
+        style="margin: 10px; background: #ffffff; color: #8B5CF6 !important; border: 2px solid #8B5CF6;">View in
+        Dashboard</a>
+</center>
+
+<h2 style="font-size: 20px; margin-top: 40px;">What's Next?</h2>
+
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin: 20px 0;">
+    <tr>
+        <td style="padding: 15px 0;">
+            <strong>🔄 Regenerate a scene</strong>
+            <p style="margin: 5px 0 0 0; color: #6b7280;">Not happy with a specific scene? Regenerate it for just 2
+                credits</p>
+        </td>
+    </tr>
+    <tr>
+        <td style="padding: 15px 0;">
+            <strong>📱 Share your creation</strong>
+            <p style="margin: 5px 0 0 0; color: #6b7280;">Post to social media and watch the engagement roll in!</p>
+        </td>
+    </tr>
+    <tr>
+        <td style="padding: 15px 0;">
+            <strong>🎬 Create another video</strong>
+            <p style="margin: 5px 0 0 0; color: #6b7280;">Test different angles and messages to find what resonates</p>
+        </td>
+    </tr>
+</table>
+
+<div class="info-box" style="margin-top: 30px;">
+    <p><strong>💡 Pro Tip:</strong> The best ads come from testing multiple variations. Create 3-5 versions with
+        different hooks and see which performs best!</p>
+</div>
+
+<p style="margin-top: 30px; font-size: 14px; color: #6b7280;">
+    Run ID: <code style="background-color: #f3f4f6; padding: 2px 6px; border-radius: 4px;">{{ run_id }}</code>
+</p>
+
+<p style="margin-top: 30px;">
+    Happy creating! 🚀<br>
+    <strong>The IgniteAI Team</strong>
+</p>
+{% endblock %}

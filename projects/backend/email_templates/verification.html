@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Verify Your Email - IgniteAI{% endblock %}
+
+{% block content %}
+<h1>Verify Your Email Address</h1>
+
+<p>Hi {{ user_name }},</p>
+
+<p>Thanks for signing up for IgniteAI! To complete your registration and ensure you receive important updates about your
+    video generations, please verify your email address.</p>
+
+<center>
+    <a href="{{ verification_link }}" class="button">Verify Email Address</a>
+</center>
+
+<div class="info-box" style="margin-top: 30px;">
+    <p><strong>⏰ This link expires in {{ expiry_hours }} hours</strong></p>
+    <p style="margin-top: 8px;">If you didn't create an account with IgniteAI, you can safely ignore this email.</p>
+</div>
+
+<p style="margin-top: 30px; font-size: 14px; color: #6b7280;">
+    <strong>Why verify?</strong><br>
+    Email verification helps us ensure the security of your account and guarantees you'll receive important
+    notifications about your video generations, credit purchases, and account updates.
+</p>
+
+<p style="margin-top: 30px; font-size: 14px; color: #6b7280;">
+    If the button above doesn't work, copy and paste this link into your browser:<br>
+    <a href="{{ verification_link }}" style="color: #8B5CF6; word-break: break-all;">{{ verification_link }}</a>
+</p>
+
+<p style="margin-top: 30px;">
+    <strong>The IgniteAI Team</strong>
+</p>
+{% endblock %}

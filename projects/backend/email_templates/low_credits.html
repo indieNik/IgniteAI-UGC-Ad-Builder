@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}Low Credits Warning - IgniteAI{% endblock %}
+
+{% block content %}
+<h1>Your Credits are Running Low ⚠️</h1>
+
+<p>Hi {{ user_name }},</p>
+
+<p>Just a friendly heads-up: your IgniteAI credit balance is getting low.</p>
+
+<div style="text-align: center; margin: 30px 0;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+            <td align="center">
+                <table role="presentation" cellspacing="0" cellpadding="0" border="0"
+                    style="background: linear-gradient(135deg, #8B5CF6 0%, #3B82F6 100%); border-radius: 50%; width: 120px; height: 120px;">
+                    <tr>
+                        <td align="center" valign="middle" style="height: 120px;">
+                            <span style="color: #ffffff; font-size: 48px; font-weight: 700; line-height: 120px;">{{
+                                current_balance }}</span>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <p style="margin-top: 15px; font-size: 18px; font-weight: 600;">Credits Remaining</p>
+    <p style="margin-top: 5px; color: #6b7280;">Approximately {{ videos_remaining }} video{{ 's' if videos_remaining !=
+        1 else '' }} left</p>
+</div>
+
+<div class="info-box" style="border-left-color: #F59E0B;">
+    <p><strong>Don't let your creativity stop!</strong></p>
+    <p style="margin-top: 8px;">Top up your credits now to keep creating amazing videos without interruption.</p>
+</div>
+
+<h2 style="font-size: 20px; margin-top: 30px;">Recommended Plan: {{ recommended_plan }}</h2>
+
+<div style="background-color: #f9fafb; border-radius: 12px; padding: 25px; margin: 20px 0; border: 2px solid #8B5CF6;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+            <td style="width: 70%;">
+                <h3 style="margin: 0; font-size: 24px; color: #8B5CF6;">{{ recommended_plan }} Plan</h3>
+                <p style="margin: 5px 0 0 0; color: #6b7280;">
+                    {% if recommended_plan == "Starter" %}
+                    100 credits - Perfect for regular creators
+                    {% else %}
+                    500 credits - Best value for power users
+                    {% endif %}
+                </p>
+            </td>
+            <td style="width: 30%; text-align: right;">
+                <p style="margin: 0; font-size: 32px; font-weight: 700; color: #1f2937;">
+                    {% if recommended_plan == "Starter" %}
+                    $49
+                    {% else %}
+                    $149
+                    {% endif %}
+                </p>
+                <p style="margin: 5px 0 0 0; color: #6b7280; font-size: 14px;">
+                    {% if recommended_plan == "Starter" %}
+                    $0.49/credit
+                    {% else %}
+                    $0.30/credit
+                    {% endif %}
+                </p>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<center>
+    <a href="{{ pricing_url }}" class="button">View All Plans & Top Up →</a>
+</center>
+
+<h2 style="font-size: 18px; margin-top: 40px;">All Available Plans:</h2>
+
+<table role="presentation" width="100%" cellspacing="0" cellpadding="15" border="0" style="margin: 20px 0;">
+    <tr style="background-color: #f9fafb;">
+        <td><strong>Starter</strong></td>
+        <td>100 credits</td>
+        <td style="text-align: right;"><strong>$49</strong></td>
+    </tr>
+    <tr>
+        <td><strong>Growth</strong></td>
+        <td>500 credits</td>
+        <td style="text-align: right;"><strong>$149</strong></td>
+    </tr>
+    <tr style="background-color: #f9fafb;">
+        <td><strong>Business</strong></td>
+        <td>2,000 credits</td>
+        <td style="text-align: right;"><strong>$499</strong></td>
+    </tr>
+</table>
+
+<p style="margin-top: 30px; font-size: 14px; color: #6b7280;">
+    <strong>Remember:</strong> Each full video costs 10 credits, and regenerating a single scene costs 2 credits.
+</p>
+
+<p style="margin-top: 30px;">
+    Keep creating! 🚀<br>
+    <strong>The IgniteAI Team</strong>
+</p>
+{% endblock %}

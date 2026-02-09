@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Claim Your 10 Free Credits - IgniteAI{% endblock %}
+
+{% block content %}
+<h1>Welcome to IgniteAI! 🎉</h1>
+
+<p>Hi {{ user_name }},</p>
+
+<p>Thanks for signing up! You're just one click away from claiming your <strong>10 free credits</strong> and creating
+    your first AI-powered video ads.</p>
+
+<center>
+    <a href="{{ verification_link }}" class="button">Verify Email & Claim 10 Credits 🎁</a>
+</center>
+
+<div class="info-box"
+    style="margin-top: 30px; background: linear-gradient(135deg, #8B5CF6 0%, #6366F1 100%); color: white; padding: 20px; border-radius: 12px;">
+    <p><strong>🎁 What you'll get:</strong></p>
+    <ul style="margin-left: 20px; margin-top: 10px;">
+        <li>10 free credits (create 2-3 videos)</li>
+        <li>All premium features unlocked</li>
+        <li>No credit card required</li>
+        <li>Credits never expire</li>
+    </ul>
+</div>
+
+<div class="info-box" style="margin-top: 20px;">
+    <p><strong>⏰ This link expires in {{ expiry_hours }} hours</strong></p>
+    <p style="margin-top: 8px;">If you didn't create an account with IgniteAI, you can safely ignore this email.</p>
+</div>
+
+<p style="margin-top: 30px; font-size: 14px; color: #6b7280;">
+    If the button above doesn't work, copy and paste this link into your browser:<br>
+    <a href="{{ verification_link }}" style="color: #8B5CF6; word-break: break-all;">{{ verification_link }}</a>
+</p>
+
+<p style="margin-top: 30px;">
+    <strong>The IgniteAI Team</strong><br>
+    <span style="font-size: 14px; color: #6b7280;">Ready to create viral video ads in minutes? Let's get started!
+        🚀</span>
+</p>
+{% endblock %}

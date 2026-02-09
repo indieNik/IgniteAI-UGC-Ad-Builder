@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}Payment Confirmed - IgniteAI{% endblock %}
+
+{% block content %}
+<h1>Payment Confirmed! 💳</h1>
+
+<p>Hi {{ user_name }},</p>
+
+<p>Thank you for your purchase! Your payment has been successfully processed and <strong>{{ credits_purchased }}
+        credits</strong> have been added to your account.</p>
+
+<!-- Transaction Details -->
+<div style="background-color: #f9fafb; border-radius: 12px; padding: 25px; margin: 30px 0;">
+    <h2 style="font-size: 18px; margin: 0 0 20px 0; color: #1f2937;">Transaction Details</h2>
+
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="8" border="0">
+        <tr>
+            <td style="color: #6b7280;">Transaction ID:</td>
+            <td style="text-align: right; font-weight: 600;">{{ transaction_id }}</td>
+        </tr>
+        <tr>
+            <td style="color: #6b7280;">Date:</td>
+            <td style="text-align: right; font-weight: 600;">{{ timestamp }}</td>
+        </tr>
+        <tr>
+            <td style="color: #6b7280;">Payment Method:</td>
+            <td style="text-align: right; font-weight: 600;">{{ payment_method }}</td>
+        </tr>
+        <tr style="border-top: 2px solid #e5e7eb;">
+            <td style="padding-top: 15px; color: #6b7280;">Amount Paid:</td>
+            <td style="text-align: right; font-weight: 600; padding-top: 15px; font-size: 18px;">${{ amount }}</td>
+        </tr>
+        <tr>
+            <td style="color: #6b7280;">Credits Purchased:</td>
+            <td style="text-align: right; font-weight: 600; color: #10B981; font-size: 18px;">+{{ credits_purchased }}
+            </td>
+        </tr>
+        <tr style="border-top: 2px solid #8B5CF6;">
+            <td style="padding-top: 15px;"><strong>New Balance:</strong></td>
+            <td style="text-align: right; padding-top: 15px;"><strong style="font-size: 24px; color: #8B5CF6;">{{
+                    new_balance }} credits</strong></td>
+        </tr>
+    </table>
+</div>
+
+<div class="info-box">
+    <p><strong>📧 Receipt</strong></p>
+    <p style="margin-top: 8px;">A copy of this receipt has been sent to your email for your records. You can also
+        download invoices from your account dashboard.</p>
+</div>
+
+<h2 style="font-size: 20px; margin-top: 30px;">What's Next?</h2>
+
+<p>With {{ new_balance }} credits, you can:</p>
+
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin: 20px 0;">
+    <tr>
+        <td style="padding: 10px 0;">
+            <span style="color: #8B5CF6; margin-right: 10px; font-size: 20px;">🎬</span>
+            <strong>Create {{ (new_balance / 10)|int }} full videos</strong>
+            <span style="color: #6b7280; margin-left: 5px;">(10 credits each)</span>
+        </td>
+    </tr>
+    <tr>
+        <td style="padding: 10px 0;">
+            <span style="color: #8B5CF6; margin-right: 10px; font-size: 20px;">🔄</span>
+            <strong>Regenerate {{ (new_balance / 2)|int }} scenes</strong>
+            <span style="color: #6b7280; margin-left: 5px;">(2 credits each)</span>
+        </td>
+    </tr>
+</table>
+
+<center>
+    <a href="{{ dashboard_url }}" class="button">Start Creating →</a>
+</center>
+
+<p style="margin-top: 30px; font-size: 14px; color: #6b7280;">
+    <strong>Need help?</strong> Contact us at <a href="mailto:{{ support_email }}" style="color: #8B5CF6;">{{
+        support_email }}</a>
+</p>
+
+<p style="margin-top: 30px;">
+    Thank you for choosing IgniteAI! 🚀<br>
+    <strong>The IgniteAI Team</strong>
+</p>
+{% endblock %}

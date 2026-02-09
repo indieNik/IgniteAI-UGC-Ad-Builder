@@ -1,0 +1,21 @@
+
+# Minimal Backend Dependencies for Hackathon Submission
+# Core AI/ML implementations abstracted to protect IP
+
+fastapi>=0.104.0
+uvicorn>=0.24.0
+pydantic>=2.5.0
+python-multipart>=0.0.6
+python-dotenv>=1.0.0
+requests>=2.31.0
+websockets>=13.0
+
+# Production would include:
+# - firebase-admin
+# - google-generativeai
+# - openai
+# - langgraph
+# - elevenlabs
+# - moviepy
+# (See README.md for full integration details)
+

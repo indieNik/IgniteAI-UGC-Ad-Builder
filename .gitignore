@@ -1,0 +1,38 @@
+.tmp/
+tmp/
+.env
+__pycache__/
+*.pyc
+.DS_Store
+output
+service-account.json
+
+# Binary Documentation & Presentations
+# ⚠️ NEVER commit PDFs or large images - causes deployment issues
+# See GIT_BEST_PRACTICES.md for alternatives
+investor_deck_v1/
+technical_deck_v1/
+IgniteAI_Investor_Deck.pdf
+*.pdf  # All PDFs excluded by default
+
+# Large Images (>500KB should use cloud storage)
+# Small icons/logos OK, but compress first
+brand/designs/image.png
+projects/frontend/public/assets/icons/icon-512x512.png
+
+# Generated/Temporary Files
+build/
+dist/
+.cache/
+*.log
+
+# Documentation & Presentation Files (can be regenerated)
+IgniteAI_Investor_Deck.pdf
+investor_deck_v1/
+technical_deck_v1/
+.firebase/
+frontend-sa-key.json
+
+# All PDF files - use cloud storage or external tools instead
+*.pdf
+**/*.pdf

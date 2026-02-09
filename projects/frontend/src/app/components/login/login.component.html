@@ -1,0 +1,17 @@
+<div class="login-container">
+    <div *ngIf="!auth.currentUser(); else loggedIn">
+        <button (click)="login()" class="btn-primary">
+            <span class="icon">G</span> Sign in with Google
+        </button>
+    </div>
+
+    <ng-template #loggedIn>
+        <div class="user-profile">
+            <img [src]="auth.currentUser()?.photoURL" alt="User" class="avatar">
+            <div class="info">
+                <span class="name">{{ auth.currentUser()?.displayName }}</span>
+                <button (click)="logout()" class="btn-sm">Sign Out</button>
+            </div>
+        </div>
+    </ng-template>
+</div>

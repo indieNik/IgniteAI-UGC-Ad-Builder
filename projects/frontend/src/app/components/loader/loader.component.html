@@ -1,0 +1,23 @@
+<!-- COMPREHENSIVE LOADING/ERROR OVERLAY -->
+<div class="loading-overlay" *ngIf="isLoading || isError">
+
+    <!-- LOADING STATE -->
+    <ng-container *ngIf="isLoading">
+        <img src="/assets/transparent-logo.png" alt="IgniteAI Loading..." class="logo-loader-img">
+        <p class="loading-status">
+            {{ message || (retryCount > 0 ? 'Connecting (Attempt ' + (retryCount + 1) + '/' + (maxRetries + 1) + ')...'
+            : 'Connecting to Engine...') }}
+        </p>
+    </ng-container>
+
+    <!-- FAILURE STATE -->
+    <ng-container *ngIf="isError">
+        <div class="error-icon">⚠️</div>
+        <h2>Something's broken.</h2>
+        <p class="error-msg">It's not you, it's us. The backend engine isn't responding.</p>
+        <button class="btn-neon small" (click)="retry.emit()">
+            <span>🔄 Retry Connection</span>
+        </button>
+    </ng-container>
+
+</div>

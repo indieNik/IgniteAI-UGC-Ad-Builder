@@ -1,0 +1,126 @@
+<div class="page-grid-full">
+    <!-- MAIN WORKSPACE -->
+    <main class="main-content">
+        <header class="settings-header">
+            <div class="header-content">
+                <h1 class="text-gradient">Account Settings</h1>
+                <p class="subtitle">Manage your credits and brand identity.</p>
+            </div>
+            <div class="tab-scrapper">
+                <button class="tab-btn" [class.active]="activeTab === 'credits'" (click)="activeTab = 'credits'">
+                    <lucide-icon name="credit-card" class="icon"></lucide-icon> Billing & Credits
+                </button>
+                <button class="tab-btn" [class.active]="activeTab === 'brand'" (click)="activeTab = 'brand'">
+                    <lucide-icon name="briefcase" class="icon"></lucide-icon> Brand Kit
+                </button>
+            </div>
+        </header>
+
+        <div class="content-scroll">
+            <!-- BRAND KIT TAB -->
+            <div *ngIf="activeTab === 'brand'" class="settings-section animate-fade-in">
+                <div class="brand-main-full">
+                    <div class="glass-panel profile-header">
+                        <div class="logo-upload-container">
+                            <div class="logo-preview"
+                                [style.backgroundImage]="brand.logo_url ? 'url(' + brand.logo_url + ')' : ''">
+                                <div *ngIf="!brand.logo_url" class="logo-placeholder">
+                                    <lucide-icon name="image" class="placeholder-icon"></lucide-icon>
+                                </div>
+                            </div>
+                            <div class="upload-actions">
+                                <button class="btn-glass small" (click)="logoInput.click()">
+                                    <lucide-icon name="upload" class="icon"></lucide-icon> Change Logo
+                                </button>
+                                <input #logoInput type="file" (change)="uploadLogo($event)" style="display:none"
+                                    accept="image/*">
+                                <p class="hint">Recommended: Square PNG with transparency (512x512)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel form-card">
+                        <h3>Visual DNA</h3>
+                        <div class="form-grid">
+                            <div class="field">
+                                <label>Brand Name</label>
+                                <input type="text" [(ngModel)]="brand.name" placeholder="e.g. IgniteAI"
+                                    class="glass-input">
+                            </div>
+                            <div class="field">
+                                <label>Brand Colors (Comma separated hex)</label>
+                                <input type="text" [(ngModel)]="brandColorsInput" placeholder="#6366f1, #8b5cf6"
+                                    class="glass-input">
+                            </div>
+                            <div class="field full">
+                                <label>Default Character / Model Style</label>
+                                <textarea [(ngModel)]="brand.character_prompt"
+                                    placeholder="Describe the default person to show in your ads (e.g. A professional female in her 30s, casual wear)"
+                                    class="glass-input" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel form-card">
+                        <h3>Sonics & Style</h3>
+                        <div class="form-grid">
+                            <div class="field">
+                                <label>Preferred Music Style</label>
+                                <select [(ngModel)]="brand.music_style" class="glass-input">
+                                    <option value="Energetic">Energetic (Upbeat & Pop)</option>
+                                    <option value="Relaxed">Relaxed (Lo-fi & Chill)</option>
+                                    <option value="Professional">Professional (Corporate)</option>
+                                    <option value="Dark">Dark (Cinematic)</option>
+                                </select>
+                            </div>
+                            <div class="field">
+                                <label>Brand Font (Experimental)</label>
+                                <input type="text" [(ngModel)]="brand.font_family" placeholder="Inter, sans-serif"
+                                    class="glass-input">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Save Button Integrated -->
+                    <div class="glass-panel save-section">
+                        <div class="save-content">
+                            <div>
+                                <h3>Save Changes</h3>
+                                <p>Updates will be applied to all future video generations.</p>
+                            </div>
+                            <button class="btn-neon" (click)="saveBrand()" [disabled]="isSavingBrand">
+                                <lucide-icon *ngIf="!isSavingBrand" name="save" class="icon"></lucide-icon>
+                                <div *ngIf="isSavingBrand" class="spinner"></div>
+                                {{ isSavingBrand ? 'Saving...' : 'Sync Brand Kit' }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CREDITS TAB -->
+            <div *ngIf="activeTab === 'credits'" class="settings-section animate-fade-in">
+                <div class="credits-showcase">
+                    <div class="credits-hero glass-panel">
+                        <div class="hero-left">
+                            <h2>{{ userCredits }}</h2>
+                            <p>Credits remaining</p>
+                        </div>
+                        <div class="hero-right">
+                            <lucide-icon name="zap" class="zap-icon"></lucide-icon>
+                        </div>
+                    </div>
+
+                    <div class="pricing-redirect">
+                        <h3>Need More Credits?</h3>
+                        <p class="pricing-desc">View our credit packs and pricing options</p>
+                        <button class="btn-neon full" [routerLink]="'/pricing'">
+                            <lucide-icon name="zap" style="width: 18px; height: 18px; margin-right: 8px;"></lucide-icon>
+                            View Pricing Plans
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>

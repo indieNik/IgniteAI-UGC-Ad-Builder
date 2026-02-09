@@ -1,0 +1,77 @@
+<svg width="150" height="160" viewBox="0 0 150 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Bottom coin (Gold) -->
+  <ellipse cx="75" cy="140" rx="40" ry="14" fill="url(#gold1-s)" opacity="0.6"/>
+  <ellipse cx="75" cy="138" rx="40" ry="14" fill="url(#gold2-s)"/>
+  
+  <!-- Second coin (Orange) -->
+  <ellipse cx="75" cy="115" rx="40" ry="14" fill="url(#orange1-s)" opacity="0.6"/>
+  <ellipse cx="75" cy="113" rx="40" ry="14" fill="url(#orange2-s)"/>
+  
+  <!-- Third coin (Cyan) -->
+  <ellipse cx="75" cy="90" rx="40" ry="14" fill="url(#cyan1-s)" opacity="0.6"/>
+  <ellipse cx="75" cy="88" rx="40" ry="14" fill="url(#cyan2-s)"/>
+  
+  <!-- Fourth coin (Blue) -->
+  <ellipse cx="75" cy="65" rx="40" ry="14" fill="url(#blue1-s)" opacity="0.6"/>
+  <ellipse cx="75" cy="63" rx="40" ry="14" fill="url(#blue2-s)"/>
+  
+  <!-- Fifth coin (Indigo) -->
+  <ellipse cx="75" cy="40" rx="40" ry="14" fill="url(#indigo1-s)" opacity="0.6"/>
+  <ellipse cx="75" cy="38" rx="40" ry="14" fill="url(#indigo2-s)"/>
+  
+  <!-- Top coin (Purple) -->
+  <ellipse cx="75" cy="15" rx="40" ry="14" fill="url(#purple1-s)" opacity="0.6"/>
+  <ellipse cx="75" cy="13" rx="40" ry="14" fill="url(#purple2-s)"/>
+  
+  <!-- Gradients -->
+  <defs>
+    <radialGradient id="gold1-s" cx="50%" cy="50%">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </radialGradient>
+    <radialGradient id="gold2-s" cx="50%" cy="50%">
+      <stop offset="0%" stop-color="#fcd34d"/>
+      <stop offset="100%" stop-color="#fbbf24"/>
+    </radialGradient>
+    <radialGradient id="orange1-s" cx="50%" cy="50%">
+      <stop offset="0%" stop-color="#fb923c"/>
+      <stop offset="100%" stop-color="#f97316"/>
+    </radialGradient>
+    <radialGradient id="orange2-s" cx="50%" cy="50%">
+      <stop offset="0%" stop-color="#fdba74"/>
+      <stop offset="100%" stop-color="#fb923c"/>
+    </radialGradient>
+    <radialGradient id="cyan1-s" cx="50%" cy="50%">
+      <stop offset="0%" stop-color="#22d3ee"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </radialGradient>
+    <radialGradient id="cyan2-s" cx="50%" cy="50%">
+      <stop offset="0%" stop-color="#67e8f9"/>
+      <stop offset="100%" stop-color="#22d3ee"/>
+    </radialGradient>
+    <radialGradient id="blue1-s" cx="50%" cy="50%">
+      <stop offset="0%" stop-color="#60a5fa"/>
+      <stop offset="100%" stop-color="#3b82f6"/>
+    </radialGradient>
+    <radialGradient id="blue2-s" cx="50%" cy="50%">
+      <stop offset="0%" stop-color="#93c5fd"/>
+      <stop offset="100%" stop-color="#60a5fa"/>
+    </radialGradient>
+    <radialGradient id="indigo1-s" cx="50%" cy="50%">
+      <stop offset="0%" stop-color="#818cf8"/>
+      <stop offset="100%" stop-color="#6366f1"/>
+    </radialGradient>
+    <radialGradient id="indigo2-s" cx="50%" cy="50%">
+      <stop offset="0%" stop-color="#a5b4fc"/>
+      <stop offset="100%" stop-color="#818cf8"/>
+    </radialGradient>
+    <radialGradient id="purple1-s" cx="50%" cy="50%">
+      <stop offset="0%" stop-color="#a78bfa"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
+    </radialGradient>
+    <radialGradient id="purple2-s" cx="50%" cy="50%">
+      <stop offset="0%" stop-color="#c4b5fd"/>
+      <stop offset="100%" stop-color="#a78bfa"/>
+    </radialGradient>
+  </defs>
+</svg>

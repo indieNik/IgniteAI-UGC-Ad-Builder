@@ -1,0 +1,89 @@
+<div class="app-layout" [class.full-width]="!showSidebar" [class.public-layout]="isPublicPage">
+
+  <ng-container *ngIf="showSidebar">
+    <!-- Mobile Sidebar Backdrop & Toggle -->
+    <div class="sidebar-backdrop" [class.active]="isSidebarOpen" (click)="closeSidebar()"></div>
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar" [class.sidebar-open]="isSidebarOpen">
+      <div class="brand">
+        <div class="logo-text">IGNITE<span class="logo-ai">AI</span></div>
+      </div>
+      <div class="sidebar-credits">
+        <app-credit-badge [credits]="userCredits" *ngIf="authService.currentUser()"></app-credit-badge>
+      </div>
+
+      <nav class="nav-menu">
+        <div class="nav-item" routerLink="/projects" routerLinkActive="active">
+          <lucide-icon name="folder" class="icon"></lucide-icon> My Campaigns
+        </div>
+        <div class="nav-item-group" #campaignsGroup>
+          <div class="nav-item" (click)="toggleCampaigns()" [class.active]="router.url.startsWith('/campaigns')">
+            <lucide-icon name="sparkles" class="icon"></lucide-icon> History
+            <lucide-icon [name]="isCampaignsOpen ? 'chevron-down' : 'chevron-right'" class="chevron"></lucide-icon>
+          </div>
+
+          <!-- Nested History -->
+          <div class="sub-nav" style="margin-left: 0;" *ngIf="isCampaignsOpen">
+            <div *ngFor="let run of historyService.history$ | async" class="nav-sub-item"
+              (click)="selectRun(run); $event.stopPropagation()">
+              <div class="campaign-item-sidebar">
+                <div class="campaign-header-row">
+                  <span class="status-dot" [class.success]="run.status === 'completed'"
+                    [class.failed]="run.status === 'failed'">•</span>
+                  <span class="campaign-name-text" [title]="getCampaignName(run)">{{ getCampaignName(run) }}</span>
+                </div>
+                <span class="campaign-id-small">#{{ getShortId(run.run_id) }}</span>
+              </div>
+            </div>
+            <div *ngIf="(historyService.history$ | async)?.length === 0" class="empty-state">
+              No runs yet
+            </div>
+          </div>
+        </div>
+        <div class="nav-item" routerLink="/library" routerLinkActive="active">
+          <lucide-icon name="image" class="icon"></lucide-icon> Assets Library
+        </div>
+        <div class="nav-item" routerLink="/community" routerLinkActive="active">
+          <app-icon name="user" size="20" class="icon"></app-icon> Community
+        </div>
+        <div class="nav-item" routerLink="/pricing" routerLinkActive="active">
+          <lucide-icon name="zap" class="icon"></lucide-icon> Pricing
+        </div>
+        <div class="nav-item" routerLink="/admin" routerLinkActive="active" *ngIf="isAdmin">
+          <lucide-icon name="shield" class="icon"></lucide-icon> Admin Center
+        </div>
+        <div class="nav-item" routerLink="/credits" routerLinkActive="active">
+          <lucide-icon name="settings" class="icon"></lucide-icon> Account Settings
+        </div>
+
+      </nav>
+
+      <div class="auth-wrapper">
+        <app-login></app-login>
+      </div>
+
+      <!-- Version Display -->
+      <div class="sidebar-version">
+        v{{ appVersion }}
+      </div>
+    </aside>
+  </ng-container>
+
+  <!-- CONTENT (Routed) -->
+  <div class="content-area">
+    <!-- Mobile Header (inside content area so it scrolls) -->
+    <div class="mobile-header" *ngIf="!isPublicPage">
+      <button class="mobile-menu-btn" (click)="toggleSidebar()">
+        <lucide-icon name="menu" class="icon"></lucide-icon>
+      </button>
+      <app-credit-badge [credits]="userCredits" *ngIf="authService.currentUser()"></app-credit-badge>
+    </div>
+
+    <router-outlet></router-outlet>
+  </div>
+
+  <!-- Global Confirmation Modal -->
+  <app-confirmation-modal></app-confirmation-modal>
+
+</div>

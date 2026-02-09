@@ -1,0 +1,103 @@
+<div class="page-grid-full">
+    <!-- MAIN WORKSPACE -->
+    <main class="main-content">
+        <header class="top-bar">
+            <div class="header-left">
+                <div class="project-title-group">
+                    <h1 class="project-name">My Campaigns</h1>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="btn-neon small" (click)="openNewCampaignModal()">
+                    <lucide-icon name="plus" class="icon"></lucide-icon>
+                    <span>New</span>
+                </button>
+            </div>
+        </header>
+
+        <div class="projects-container">
+
+
+            <ng-container *ngIf="projects$ | async as projects">
+                <div class="project-card glass-panel" *ngFor="let project of projects"
+                    [routerLink]="['/campaigns', project.run_id]">
+                    <div class="card-preview" #preview (mouseenter)="playVideo(preview)"
+                        (mouseleave)="pauseVideo(preview)">
+                        <!-- Video Preview (Hidden by default, plays on hover) -->
+                        <video #video [src]="project.result?.video_url" class="card-video" muted loop playsinline
+                            *ngIf="project.result?.video_url"></video>
+
+                        <!-- Thumbnail Priority: 1. Remote Asset (Hook) 2. Uploaded Source 3. Video Poster 4. Placeholder -->
+                        <img *ngIf="project.result?.remote_assets?.Hook_image || project.result?.source_image_url"
+                            [src]="project.result?.remote_assets?.Hook_image || project.result?.source_image_url"
+                            class="card-img" loading="lazy" alt="Project Thumbnail">
+
+                        <div *ngIf="!project.result?.remote_assets?.Hook_image && !project.result?.source_image_url"
+                            class="placeholder-icon">
+                            <lucide-icon name="film" style="width: 48px; height: 48px; opacity: 0.3;"></lucide-icon>
+                        </div>
+
+                        <div class="status-badge" [class.success]="project.status === 'completed'"
+                            [class.failed]="project.status === 'failed'">
+                            {{ project.status | titlecase }}
+                        </div>
+
+                        <!-- Hover Actions -->
+                        <div class="card-hover-actions" *ngIf="project.result?.video_url">
+                            <button class="btn-preview"
+                                (click)="openPreview($event, project.result.video_url, project.request?.config?.projectTitle || project.run_id)">
+                                <lucide-icon name="eye" class="icon-sm" style="margin-right: 8px;"></lucide-icon>
+                                Preview
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-info">
+                        <h3>{{ project.request?.config?.projectTitle || project.request?.prompt || project.run_id }}
+                        </h3>
+                        <p class="date">{{ (project.updated_at || project.timestamp) * 1000 | date:'mediumDate' }}</p>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </main>
+
+    <!-- FULL PREVIEW MODAL -->
+    <div class="preview-modal-overlay" *ngIf="previewModalVisible" (click)="closePreview()">
+        <div class="preview-modal-content glass-panel" (click)="$event.stopPropagation()">
+            <div class="preview-header">
+                <h3>{{ selectedProjectTitle }}</h3>
+                <button class="close-btn" (click)="closePreview()">
+                    <lucide-icon name="x"></lucide-icon>
+                </button>
+            </div>
+            <div class="preview-body">
+                <video [src]="selectedVideoUrl" controls autoplay class="full-video-player"></video>
+            </div>
+            <div class="preview-footer">
+                <button class="btn-neon" (click)="closePreview()">Done</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Campaign Name Input Modal -->
+    <div class="name-modal-overlay" *ngIf="showNameModal" (click)="closeNameModal()">
+        <div class="name-modal-content glass-panel" (click)="$event.stopPropagation()">
+            <div class="modal-header">
+                <h3>Create New Campaign</h3>
+                <button class="close-btn" (click)="closeNameModal()">
+                    <lucide-icon name="x"></lucide-icon>
+                </button>
+            </div>
+            <div class="modal-body">
+                <label for="campaignName">Campaign Name</label>
+                <input type="text" id="campaignName" [(ngModel)]="newCampaignName" placeholder="e.g., Summer Sale 2024"
+                    (keyup.enter)="createCampaign()" autofocus class="name-input" />
+                <p class="helper-text">Enter a descriptive name for your campaign (optional)</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-glass" (click)="closeNameModal()">Cancel</button>
+                <button class="btn-neon" (click)="createCampaign()">Create Campaign</button>
+            </div>
+        </div>
+    </div>
+</div>

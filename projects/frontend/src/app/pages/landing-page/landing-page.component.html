@@ -1,0 +1,193 @@
+<div class="landing-container">
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <span class="logo-text">IGNITE</span><span class="logo-ai">AI</span>
+        </div>
+        <div class="nav-links">
+            <a href="#features">Features</a>
+            <a href="#pricing">Pricing</a>
+            <button class="btn btn-primary mobile-hide" routerLink="/sign-in">Sign In</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="badge">New: Veo 2.0 Integration</div>
+            <h1>Stop Burning Cash on <span class="gradient-text">Creative Fatigue</span></h1>
+            <p class="subheadline">
+                Generate short-form ad videos designed for iteration, testing, and scale.
+                Create variations without shipping product or hiring actors.
+            </p>
+            <div class="cta-group">
+                <button class="btn btn-lg btn-glow" (click)="handleCta('build')">Ignite My First Campaign</button>
+                <button class="btn btn-lg btn-outline" (click)="scrollToPricing()">View Pricing</button>
+            </div>
+            <p class="supporting-line">Built for teams that iterate on creatives, not generate once.</p>
+            <div class="social-proof">
+                <p>Trusted by 500+ D2C Founders</p>
+                <div class="avatars">
+                    <!-- Placeholder circles for social proof aesthetics -->
+                    <div class="avatar" style="background-color: #FF5733;"></div>
+                    <div class="avatar" style="background-color: #33FF57;"></div>
+                    <div class="avatar" style="background-color: #3357FF;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Abstract Dashboard Visual -->
+        <div class="hero-visual">
+            <div class="glass-card main-preview">
+                <div class="preview-header">
+                    <span class="file-name">generation_v2.mp4</span>
+                    <div class="badge-sm"><lucide-icon name="sparkles"
+                            style="width: 12px; height: 12px; vertical-align: middle; margin-right: 4px;"></lucide-icon>
+                        AI Generated</div>
+                </div>
+                <div class="preview-body">
+                    <div class="video-frame editor-mock">
+                        <!-- Simulated AI Editor UI -->
+                        <div class="editor-ui-header">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                            <div class="url-bar">ignite.ai/new-campaign</div>
+                        </div>
+                        <div class="editor-content">
+                            <div class="input-simulation">
+                                <span class="cursor-text">Generate a viral TikTok ad for a coffee brand...</span><span
+                                    class="cursor">|</span>
+                            </div>
+                            <div class="generating-state">
+                                <div class="loader-ring"></div>
+                                <span>Creating Visuals...</span>
+                            </div>
+                            <div class="final-result-preview">
+                                <div class="play-button-small"><lucide-icon name="play"
+                                        style="width: 12px; height: 12px;"></lucide-icon></div>
+                                <div class="result-overlay">
+                                    <span>Coffee_Ad_v1.mp4</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="processing-steps">
+                        <div class="step involved">
+                            <span class="check"><lucide-icon name="check"
+                                    style="width: 12px; height: 12px;"></lucide-icon></span> Script Writing
+                        </div>
+                        <div class="step involved">
+                            <span class="check"><lucide-icon name="check"
+                                    style="width: 12px; height: 12px;"></lucide-icon></span> Voice Synthesis
+                        </div>
+                        <div class="step active">
+                            <span class="spinner"><lucide-icon name="refresh-cw" style="width: 12px; height: 12px;"
+                                    class="spin"></lucide-icon></span> Rendering with Veo
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Grid -->
+    <section id="features" class="features-section">
+        <h2>Why Top Brands Switch to AI</h2>
+        <div class="grid-3">
+            <div class="feature-card glass-panel" *ngFor="let feature of features">
+                <div class="icon">
+                    <lucide-icon [name]="feature.icon" style="width: 32px; height: 24px;"></lucide-icon>
+                </div>
+                <h3>{{ feature.title }}</h3>
+                <p>{{ feature.desc }}</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing-section">
+        <h2>Simple, Transparent Pricing</h2>
+        <p class="pricing-subtitle">Scale your ads, not your overhead.</p>
+
+        <div class="pricing-grid-premium">
+            <div class="pricing-card-premium" *ngFor="let plan of pricingPlans" [class.featured]="plan.highlight"
+                [class.starter]="plan.name === 'Starter Pack'" [class.builder]="plan.name === 'Builder Pack'"
+                [class.scale]="plan.name === 'Scale Pack'">
+
+                <!-- Badge (only for non-featured cards) -->
+                <div *ngIf="!plan.isPopular && plan.name === 'Starter Pack'" class="card-badge badge-purple">
+                    Best For First-Time Users
+                </div>
+                <div *ngIf="plan.name === 'Scale Pack'" class="card-badge badge-purple">
+                    Upgrade & Save
+                </div>
+
+                <!-- Featured Badge (Most Popular floating) - only for popular cards -->
+                <div *ngIf="plan.highlight" class="featured-badge">
+                    Most Popular
+                </div>
+
+                <!-- Card Title -->
+                <h3 class="card-title-premium">{{ plan.name }}</h3>
+
+                <!-- Price Section -->
+                <div class="price-section-premium">
+                    <div class="price-premium">{{ plan.price }}</div>
+                    <div class="price-meta">{{ plan.period }}</div>
+                </div>
+
+                <!-- Subtitle -->
+                <p class="card-subtitle-premium">{{ plan.description }}</p>
+
+                <!-- CTA Button -->
+                <button class="cta-btn-premium" [class.btn-purple]="!plan.highlight" [class.btn-blue]="plan.highlight"
+                    (click)="handleCta(plan.action)">
+                    {{ plan.cta }}
+                </button>
+
+                <!-- Features List -->
+                <ul class="features-list-premium">
+                    <li *ngFor="let feature of plan.features">
+                        <lucide-icon name="check" class="check-icon-premium"></lucide-icon>
+                        <span [innerHTML]="feature"></span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Footer Credit Estimate -->
+        <footer class="pricing-footer-premium">
+            <p class="estimate-text">
+                Estimate: <strong>1-5</strong> credits / video (varies by length)
+            </p>
+        </footer>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <h4>IgniteAI</h4>
+                <p style="margin-bottom: 0.5rem;">by <strong>The Jaggery Point</strong></p>
+                <p class="infra-signal">Built on Google Cloud AI and scalable cloud infrastructure.</p>
+                <div class="status-indicator">
+                    <span class="badge-subtle">Currently in private beta</span>
+                </div>
+                <p>© 2025 The Jaggery Point. All rights reserved.</p>
+                <p class="version-text">v{{ appVersion }}</p>
+            </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <a routerLink="/terms">Terms and Conditions</a>
+                <a routerLink="/privacy">Privacy Policy</a>
+                <a routerLink="/shipping">Shipping Policy</a>
+                <a routerLink="/cancellation-refund">Cancellation & Refunds</a>
+            </div>
+            <div class="footer-col">
+                <h4>Support</h4>
+                <a routerLink="/contact">Contact Us</a>
+            </div>
+        </div>
+    </footer>
+</div>

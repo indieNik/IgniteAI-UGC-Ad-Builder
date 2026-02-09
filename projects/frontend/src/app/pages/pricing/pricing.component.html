@@ -1,0 +1,84 @@
+<div class="pricing-page">
+    <!-- Hero Section -->
+    <header class="pricing-hero">
+        <h1 class="hero-title">Choose Your Plan</h1>
+        <p class="hero-subtitle">Monthly subscriptions with credits that refresh every month</p>
+
+        <!-- Billing Period Toggle -->
+        <div class="billing-toggle">
+            <button class="toggle-btn" [class.active]="billingPeriod === 'monthly'" (click)="billingPeriod = 'monthly'">
+                Monthly
+            </button>
+            <button class="toggle-btn" [class.active]="billingPeriod === 'annual'" (click)="billingPeriod = 'annual'">
+                Annual <span class="save-badge">Save 20%</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Pricing Cards Grid -->
+    <div class="pricing-grid">
+        <!-- Iterate through pricing tiers -->
+        <div *ngFor="let tier of pricingTiers" class="pricing-card" [class.featured]="tier.isFeatured"
+            [class.starter]="tier.id === 'starter'" [class.growth]="tier.id === 'growth'"
+            [class.agency]="tier.id === 'agency'">
+
+            <!-- Top Badge -->
+            <div *ngIf="tier.badge" class="card-badge" [class.badge-purple]="tier.badgeColor === 'purple'"
+                [class.badge-blue]="tier.badgeColor === 'blue'">
+                {{ tier.badge }}
+            </div>
+
+            <!-- Featured Badge (Most Popular) -->
+            <div *ngIf="tier.isFeatured" class="featured-badge">
+                {{ tier.badge }}
+            </div>
+
+            <!-- Card Title -->
+            <h3 class="card-title">{{ tier.name }}</h3>
+
+            <!-- Price Section -->
+            <div class="price-section">
+                <div class="price">{{ getPriceLabel(tier) }}</div>
+                <div class="price-period">/month</div>
+                <div *ngIf="billingPeriod === 'annual'" class="billed-annually">
+                    Billed ${{ tier.annualPrice.toLocaleString('en-US') }} annually (Save ${{ (tier.monthlyPrice * 12 -
+                    tier.annualPrice).toLocaleString('en-US') }})
+                </div>
+
+                <!-- Credits Info -->
+                <div class="price-meta-row">
+                    <span class="credits-count">{{ tier.monthlyCredits }} Credits/mo</span>
+                    <img *ngIf="tier.coinImage" [src]="tier.coinImage" class="coin-graphic" alt="Credits">
+                </div>
+            </div>
+
+            <!-- Subtitle -->
+            <p *ngIf="tier.subtitle" class="card-subtitle">{{ tier.subtitle }}</p>
+
+            <!-- Features List -->
+            <ul class="features-list">
+                <li *ngFor="let feature of tier.features" class="feature-item">
+                    <lucide-icon name="check" class="check-icon"></lucide-icon>
+                    <span>{{ feature }}</span>
+                </li>
+            </ul>
+
+            <!-- CTA Button -->
+            <button class="cta-button" [class.cta-purple]="tier.ctaColor === 'purple'"
+                [class.cta-blue]="tier.ctaColor === 'blue'" (click)="purchaseSubscription(tier)"
+                [disabled]="isProcessingPayment">
+                {{ isProcessingPayment ? 'Processing...' : tier.ctaText }}
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer Note -->
+    <div class="pricing-footer">
+        <p class="footer-note">
+            Estimate: <strong>10-25</strong> credits per video (varies by duration & features)
+        </p>
+        <p class="footer-note secondary">
+            All plans include unlimited team members and priority email support
+        </p>
+    </div>
+</div>

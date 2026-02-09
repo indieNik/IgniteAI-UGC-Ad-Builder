@@ -1,0 +1,99 @@
+<div class="community-container">
+    <header class="community-header">
+        <h1>Community Showcase</h1>
+        <p>Discover amazing videos created by the IgniteAI community</p>
+
+        <div class="sort-options">
+            <button [class.active]="sortBy === 'recent'" (click)="changeSortBy('recent')">
+                Most Recent
+            </button>
+            <button [class.active]="sortBy === 'popular'" (click)="changeSortBy('popular')">
+                Most Popular
+            </button>
+            <button [class.active]="sortBy === 'trending'" (click)="changeSortBy('trending')">
+                Trending
+            </button>
+            <button [class.active]="sortBy === 'liked'" (click)="changeSortBy('liked')">
+                Liked Videos
+            </button>
+        </div>
+    </header>
+
+    <div *ngIf="loading" class="loading-state">
+        <div class="spinner"></div>
+        <p>Loading community videos...</p>
+    </div>
+
+    <div *ngIf="!loading && videos.length === 0" class="empty-state">
+        <div class="empty-icon">🎬</div>
+        <h2>No videos yet</h2>
+        <p>Be the first to share your creation with the community!</p>
+    </div>
+
+    <div *ngIf="!loading && videos.length > 0" class="video-grid">
+        <div *ngFor="let video of videos" class="video-card" (click)="openVideoModal(video)">
+            <div class="video-preview">
+                <video #videoElement [src]="video.video_url" [poster]="video.thumbnail_url" muted loop
+                    (mouseenter)="playVideo($event, video.run_id)" (mouseleave)="pauseVideo($event)"
+                    (click)="$event.stopPropagation()">
+                </video>
+                <div class="video-overlay">
+                    <button class="play-btn" (click)="openVideoModal(video); $event.stopPropagation()">
+                        ▶
+                    </button>
+                </div>
+            </div>
+
+            <div class="video-info">
+                <h3 class="video-title">{{ video.project_name }}</h3>
+                <p class="video-creator">by {{ video.user_name === 'Anonymous' ? 'Community Member' : video.user_name }}
+                </p>
+
+                <div class="video-stats">
+                    <span class="stat">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                        {{ video.views }}
+                    </span>
+                    <span class="stat">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path
+                                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                            </path>
+                        </svg>
+                        {{ video.likes }}
+                    </span>
+                    <span class="stat date">{{ formatDate(video.shared_at) }}</span>
+                </div>
+
+                <div class="video-actions">
+                    <button class="like-btn" [class.liked]="video.is_liked_by_user" (click)="toggleLike(video)">
+                        <svg width="20" height="20" viewBox="0 0 24 24"
+                            [attr.fill]="video.is_liked_by_user ? 'currentColor' : 'none'" stroke="currentColor">
+                            <path
+                                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                            </path>
+                        </svg>
+                        {{ video.is_liked_by_user ? 'Liked' : 'Like' }}
+                    </button>
+                    <button class="share-btn" (click)="shareVideo(video)">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <circle cx="18" cy="5" r="3"></circle>
+                            <circle cx="6" cy="12" r="3"></circle>
+                            <circle cx="18" cy="19" r="3"></circle>
+                            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                        </svg>
+                        Share
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Reels Viewer -->
+<app-reels-viewer *ngIf="showReelsViewer" [videos]="videos" [initialVideoId]="initialVideoId"
+    (closeViewer)="closeReelsViewer()"></app-reels-viewer>

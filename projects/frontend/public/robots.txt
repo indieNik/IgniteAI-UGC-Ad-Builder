@@ -1,0 +1,21 @@
+User-agent: *
+Allow: /
+
+# Disallow authenticated app routes
+Disallow: /projects
+Disallow: /campaigns
+Disallow: /library
+Disallow: /settings
+
+# Allow public assets and landing page
+Allow: /assets/
+Allow: /*.css
+Allow: /*.js
+Allow: /*.png
+Allow: /*.jpg
+Allow: /*.webp
+Allow: /sign-in
+
+# Sitemap location
+Sitemap: https://igniteai.in/sitemap.xml
+

@@ -1,0 +1,516 @@
+<div class="page-grid">
+    <!-- REUSABLE LOADER COMPONENT -->
+    <app-loader [isLoading]="isCheckingHealth" [isError]="connectionFailed" [retryCount]="retryCount"
+        [maxRetries]="MAX_RETRIES" (retry)="retryConnection()">
+    </app-loader>
+
+    <!-- MAIN WORKSPACE -->
+    <main class="main-content">
+        <!-- Guest Interaction Overlay -->
+        <div *ngIf="!authService.currentUser() && !showSignInModal" class="guest-overlay"
+            (click)="handleGuestInteraction()" title="Sign in to start creating">
+        </div>
+
+        <!-- Inline Sign-In Modal -->
+        <div class="modal-backdrop" *ngIf="showSignInModal">
+            <div class="signin-modal glass-panel">
+                <button class="close-btn" (click)="showSignInModal = false">
+                    <lucide-icon name="x"></lucide-icon>
+                </button>
+
+                <div class="signin-header">
+                    <h2>Unlock the Creator Studio</h2>
+                    <p>Join IgniteAI to create, save, and download your viral video ads.</p>
+                </div>
+
+                <div class="signin-actions">
+                    <button class="btn-primary-google" (click)="performLogin()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <path
+                                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                                fill="#4285F4" />
+                            <path
+                                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                                fill="#34A853" />
+                            <path
+                                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                                fill="#FBBC05" />
+                            <path
+                                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                                fill="#EA4335" />
+                        </svg>
+                        Continue with Google
+                    </button>
+
+                    <p class="terms-note">By continuing, you agree to our Terms and Privacy Policy.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Regeneration Modal -->
+        <div class="modal-backdrop" *ngIf="showRegenerateModal">
+            <div class="signin-modal glass-panel" style="max-width: 500px;">
+                <button class="close-btn" (click)="closeRegenerateModal()">
+                    <lucide-icon name="x"></lucide-icon>
+                </button>
+
+                <div class="signin-header">
+                    <h2>Regenerate {{ sceneToRegenerate }}</h2>
+                    <p>Describe what you want to change (optional).</p>
+                </div>
+
+                <div class="ignition-box" style="margin: 20px 0; border: none; background: rgba(255,255,255,0.03);">
+                    <div class="prompt-input" style="width: 100%;">
+                        <textarea [(ngModel)]="regenerationPrompt"
+                            placeholder="e.g. Make it more cinematic, change background to a park..."
+                            class="glass-input" rows="3" autoFocus></textarea>
+                    </div>
+                </div>
+
+                <div class="signin-actions">
+                    <button class="btn-neon" (click)="confirmRegeneration()">
+                        <lucide-icon name="refresh-cw" class="icon"></lucide-icon>
+                        Regenerate (2 Credits)
+                    </button>
+                    <button class="btn-glass" (click)="closeRegenerateModal()">Cancel</button>
+                </div>
+            </div>
+        </div>
+        <header class="top-bar">
+            <div class="header-left">
+                <a routerLink="/projects" class="back-link" title="Back to Projects">
+                    <lucide-icon name="arrow-left" class="arrow"></lucide-icon>
+                </a>
+                <div class="project-meta">
+                    <input [(ngModel)]="projectTitle" class="project-name-input"
+                        placeholder="Enter Campaign Name (required)" maxlength="100" required>
+                    <div class="status-group">
+                        <span class="status-dot"></span>
+                        <span class="status-text">{{ currentRunId ? 'Saved' : 'Draft' }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="header-center">
+                <!-- Spacing logic or Saving indicator if needed -->
+            </div>
+
+            <div class="header-actions">
+                <div class="utility-group">
+                    <div class="credits-display" routerLink="/credits"
+                        title="Current Balance: {{ userCredits }} credits">
+                        <div class="credits-meta">
+                            <span class="credits-label">Available Balance</span>
+                            <span class="credits-value">{{ userCredits }} <lucide-icon name="circle-dollar-sign"
+                                    class="gold-icon icon-inline"></lucide-icon></span>
+                        </div>
+                        <div class="credits-progress-bg">
+                            <div class="credits-progress-fill"
+                                [style.width.%]="Math.min((userCredits / 100) * 100, 100)"></div>
+                        </div>
+                    </div>
+
+                    <button class="btn-glass-icon" (click)="startTour()" title="Tour Guide">
+                        <lucide-icon name="help-circle" class="icon"></lucide-icon>
+                    </button>
+                    <button class="btn-glass-icon" title="Project Settings">
+                        <lucide-icon name="settings" class="icon"></lucide-icon>
+                    </button>
+                </div>
+
+                <div class="primary-actions">
+                    <button class="btn-glass small" (click)="resetCampaign()" title="New Campaign">
+                        <lucide-icon name="plus" class="icon"></lucide-icon> New
+                    </button>
+                    <button class="btn-neon small" (click)="downloadAssets()" *ngIf="currentRunId"
+                        [disabled]="isDownloading">
+                        <span>{{ isDownloading ? 'Exporting...' : 'Export' }}</span>
+                        <lucide-icon name="upload" class="icon"></lucide-icon>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div class="canvas">
+
+            <!-- IGNITION STAGE -->
+            <div class="ignition-container">
+                <div class="ignition-box glass-panel" [class.active-drop]="isDragging">
+                    <div class="drop-zone" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)"
+                        (drop)="onDrop($event)" (click)="fileInput.click()"
+                        [style.backgroundImage]="uploadedImageUrl ? 'url(' + uploadedImageUrl + ')' : ''"
+                        [style.backgroundSize]="'cover'" [style.border-style]="uploadedImageUrl ? 'solid' : 'dashed'">
+
+                        <input #fileInput type="file" (change)="onFileSelected($event)" style="display:none"
+                            accept="image/*">
+                        <lucide-icon *ngIf="!uploadedImageUrl" name="plus" class="plus-icon"></lucide-icon>
+                        <p *ngIf="!uploadedImageUrl">Drop Product Image</p>
+                    </div>
+
+                    <div class="prompt-input">
+                        <textarea [(ngModel)]="prompt"
+                            placeholder="Describe the vibe... e.g. High energy gym workout, fast cuts."
+                            class="glass-input" rows="3"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SCENE FLOW -->
+            <div class="storyboard-flow">
+                <div class="flow-line"></div>
+
+                <!-- Cards -->
+                <div class="scene-card glass-panel" *ngFor="let scene of sceneList">
+                    <div class="card-header">
+                        <span>{{scene}}</span>
+                        <div class="action-container" *ngIf="sceneAssets[scene + '_video']">
+                            <button class="btn-icon-tiny" [class.active]="activeMenuScene === scene"
+                                (click)="toggleSceneMenu(scene, $event)">
+                                <lucide-icon name="more-vertical" style="width: 14px; height: 14px"></lucide-icon>
+                            </button>
+
+                            <!-- Scene Menu Dropdown -->
+                            <div class="scene-menu glass-panel" *ngIf="activeMenuScene === scene"
+                                (click)="$event.stopPropagation()">
+                                <button class="menu-item btn-menu" *ngIf="sceneAssets[scene + '_video']"
+                                    (click)="openPreview(getAssetUrl(sceneAssets[scene + '_video']), scene); closeSceneMenu()">
+                                    <lucide-icon name="eye" class="icon-sm"></lucide-icon>
+                                    Preview
+                                </button>
+                                <button class="menu-item btn-menu" (click)="regenerateScene(scene); closeSceneMenu()"
+                                    [disabled]="isGenerating">
+                                    <lucide-icon name="refresh-cw" [class.spin]="isGenerating && currentRunId"
+                                        class="icon-sm">
+                                    </lucide-icon>
+                                    Redo Scene
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Script/Narrative Display -->
+                    <div class="scene-script-box" *ngIf="sceneScripts[scene]" title="{{ sceneScripts[scene] }}">
+                        <p>{{ sceneScripts[scene] }}</p>
+                    </div>
+
+                    <div class="card-preview" #preview (mouseenter)="playVideo(preview)"
+                        (mouseleave)="pauseVideo(preview)">
+                        <!-- Video Preview -->
+                        <video #v [src]="getAssetUrl(sceneAssets[scene + '_video'])" class="scene-video" muted loop
+                            playsinline *ngIf="sceneAssets[scene + '_video']"></video>
+                        <!-- Static Thumbnail -->
+                        <div class="scene-thumbnail"
+                            [style.backgroundImage]="getSceneThumbnailUrl(scene) ? 'url(' + getSceneThumbnailUrl(scene) + ')' : ''">
+                        </div>
+
+
+
+
+                        <!-- Placeholder if no asset -->
+                        <!-- Only show placeholder if neither video nor image exists -->
+                        <div *ngIf="!sceneAssets[scene + '_video'] && !getSceneThumbnailUrl(scene)"
+                            class="scene-placeholder">
+                            <span *ngIf="(isStarting || isBackgroundProcessing) && isSceneLoading(scene)">Generating {{
+                                scene }}...</span>
+                            <span
+                                *ngIf="(isStarting || isBackgroundProcessing) && !isSceneLoading(scene)">Processing...</span>
+                            <span *ngIf="!isStarting && !isBackgroundProcessing">Draft</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scene Preview Modal -->
+            <div class="preview-modal-overlay" *ngIf="previewModalVisible" (click)="closePreview()">
+                <div class="preview-modal-content glass-panel" (click)="$event.stopPropagation()">
+                    <div class="preview-header">
+                        <h3>Scene: {{ selectedSceneName }}</h3>
+                        <button class="close-btn" (click)="closePreview()">
+                            <lucide-icon name="x"></lucide-icon>
+                        </button>
+                    </div>
+                    <div class="preview-body">
+                        <video [src]="selectedVideoUrl" controls autoplay class="full-video-player"></video>
+                    </div>
+                    <div class="preview-footer">
+                        <button class="btn-neon" (click)="closePreview()">Done</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Status Indicator (NON-BLOCKING) -->
+            <!-- Only show if starting (blocking) or manual toggle for logs -->
+            <div *ngIf="isStarting || isFailed" class="status-container glass-panel">
+                <div class="status-main">
+                    <lucide-icon name="zap" class="spin" *ngIf="isStarting"></lucide-icon>
+                    <lucide-icon name="alert-circle" *ngIf="isFailed"></lucide-icon>
+                    <div class="status-texts">
+                        <h4>{{ friendlyStatus || generationStatus }}</h4>
+                        <small *ngIf="friendlyStatus">{{ generationStatus }}</small>
+                        <p *ngIf="isFailed && failureReason" class="failure-reason">{{ failureReason }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Non-Blocking Status Bar (Fixed Bottom or Top) -->
+            <div class="status-bar-floating glass-panel" *ngIf="isBackgroundProcessing && !isStarting">
+                <div class="status-content">
+                    <lucide-icon name="loader" class="spin icon-sm"></lucide-icon>
+                    <span>Generating... (Run: {{ currentRunId }})</span>
+                    <span class="sub-text desktop-only">You can leave this page. We'll email you when done.</span>
+                </div>
+                <div class="status-actions">
+                    <button class="btn-text-xs" (click)="toggleLogs()">
+                        <lucide-icon name="terminal" class="icon-xs"></lucide-icon>
+                        Logs
+                    </button>
+                    <button class="btn-text-xs" (click)="resetCampaign()">New</button>
+                </div>
+            </div>
+
+
+            <!-- LOADING OVERLAY (FETCHING ARTIFACTS) -->
+            <app-loader [isLoading]="isLoadingRun && !isGenerating" message="Hang on, getting the artifacts...">
+            </app-loader>
+
+            <!-- Result Video Modal -->
+            <div class="result-modal" *ngIf="finalVideoUrl">
+                <div class="modal-content glass-panel">
+                    <button class="close-btn" (click)="finalVideoUrl = null">
+                        <lucide-icon name="x"></lucide-icon>
+                    </button>
+                    <h3>✨ Campaign Ready!</h3>
+
+                    <!-- VERSION HISTORY SELECTOR -->
+                    <div class="version-selector" *ngIf="videoVersions.length > 1"
+                        style="margin-bottom: 15px; display: flex; align-items: center; justify-content: center;">
+                        <label style="color: var(--text-muted); margin-right: 10px; font-size: 0.9rem;">Version:</label>
+                        <select [(ngModel)]="finalVideoUrl" class="glass-input-sm"
+                            style="width: auto; min-width: 200px;">
+                            <option *ngFor="let v of videoVersions" [value]="v.url">{{ v.label }}</option>
+                        </select>
+                    </div>
+
+                    <video controls autoplay loop [src]="finalVideoUrl" class="result-video"
+                        (error)="handleVideoError($event)"></video>
+                    <div class="actions-row">
+                        <a [href]="finalVideoUrl" download="campaign_video.mp4" target="_blank"
+                            rel="noopener noreferrer" class="btn-neon small"
+                            style="text-decoration:none; display:flex; align-items:center; gap: 8px;">
+                            <lucide-icon name="upload" style="transform: rotate(180deg)"></lucide-icon>
+                            Download Video
+                        </a>
+                        <button class="btn-glass small" (click)="downloadAssets()" [disabled]="isDownloading"
+                            style="gap: 8px;">
+                            <span>{{ isDownloading ? 'Zipping...' : 'Download All Assets' }}</span>
+                            <lucide-icon name="package" class="icon"></lucide-icon>
+                        </button>
+                        <button class="btn-neon small" (click)="finalVideoUrl = null">Create Another</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Log History (Toggled) -->
+            <div class="console-log glass-panel" *ngIf="showLogs && logs.length > 0">
+                <div class="log-header">
+                    <span>Execution History</span>
+                    <button class="close-btn-mini" (click)="toggleLogs()">
+                        <lucide-icon name="x" style="width: 14px; height: 14px"></lucide-icon>
+                    </button>
+                </div>
+                <div class="log-content">
+                    <div *ngFor="let log of logs" class="log-line">
+                        <span class="log-time">[{{ log.timestamp | date:'HH:mm:ss' }}]</span>
+                        <span>{{ log.message }}</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- MAIN ACTION -->
+        <!-- Mobile Properties Toggle -->
+        <button class="properties-toggle-btn desktop-only" (click)="toggleProperties()" title="Settings">
+            <lucide-icon name="settings" class="icon"></lucide-icon>
+        </button>
+
+        <div class="floating-action desktop-only">
+            <button class="btn-neon" (click)="generate()" [disabled]="isStarting" *ngIf="userCredits >= COST_PER_GEN">
+                <span>{{ getGenerateButtonText() }}</span>
+                <span class="cost-tag" *ngIf="!isStarting">{{ getCreditCost(numScenes) }} <lucide-icon
+                        name="circle-dollar-sign"
+                        style="width: 12px; height: 12px; vertical-align: middle; margin-left: 4px;"
+                        class="gold-icon"></lucide-icon></span>
+            </button>
+            <button class="btn-neon" routerLink="/credits" *ngIf="userCredits < COST_PER_GEN && !isStarting">
+                <lucide-icon name="zap" style="width: 14px; height: 14px; margin-right: 8px;"></lucide-icon>
+                <span>{{ getGenerateButtonText() }}</span>
+            </button>
+        </div>
+
+        <!-- Mobile Bottom Action Bar -->
+        <div class="mobile-bottom-bar">
+            <button class="btn-neon" (click)="generate()" [disabled]="isStarting" style="flex: 1;"
+                *ngIf="userCredits >= COST_PER_GEN">
+                <span>{{ isStarting ? 'Creating...' : (currentRunId ? 'New' : 'Generate') }}</span>
+                <span class="cost-tag" *ngIf="!isStarting">{{ getCreditCost(numScenes) }} <lucide-icon
+                        name="circle-dollar-sign"
+                        style="width: 12px; height: 12px; vertical-align: middle; margin-left: 4px;"
+                        class="gold-icon"></lucide-icon></span>
+            </button>
+            <button class="btn-neon" routerLink="/credits" *ngIf="userCredits < COST_PER_GEN && !isStarting"
+                style="flex: 1;">
+                <lucide-icon name="zap" style="width: 14px; height: 14px; margin-right: 8px;"></lucide-icon>
+                <span>Upgrade</span>
+            </button>
+            <button class="btn-glass icon-only" (click)="toggleProperties()">
+                <lucide-icon name="settings" class="icon"></lucide-icon>
+            </button>
+        </div>
+    </main>
+
+    <!-- RIGHT SIDEBAR (Moved here as part of Editor View) -->
+    <aside class="properties-panel" [class.properties-open]="isPropertiesOpen">
+        <!-- Close Button (Mobile Only) -->
+        <button class="panel-close-btn" (click)="toggleProperties()">
+            <lucide-icon name="x"></lucide-icon>
+        </button>
+
+        <div class="panel-header">
+            <h3>Properties</h3>
+        </div>
+        <div class="panel-content">
+            <!-- Campaign Presets -->
+            <div class="setting-group">
+                <label>Campaign Presets</label>
+                <div class="preset-grid">
+                    <button *ngFor="let p of presets" class="btn-preset" [class.active]="selectedPresetId === p.id"
+                        (click)="applyPreset(p.id)" [title]="p.description">
+                        {{ p.label }}
+                    </button>
+                </div>
+            </div>
+
+            <!-- Settings -->
+            <div class="setting-group">
+                <label>Aspect Ratio</label>
+
+                <select class="glass-input-sm" [(ngModel)]="aspectRatio">
+                    <option value="9:16">9:16 (Story/Reel)</option>
+                    <option value="1:1">1:1 (Post)</option>
+                    <option value="16:9">16:9 (Landscape)</option>
+                </select>
+            </div>
+
+            <div class="setting-group">
+                <label>Target Website</label>
+                <input type="text" [(ngModel)]="websiteUrl" placeholder="https://example.com" class="glass-input-sm">
+            </div>
+
+            <!-- Premium Features (Phase 1) -->
+            <div class="setting-group premium-features-group">
+                <label style="color: var(--accent-primary);">Premium Features</label>
+
+                <div class="feature-toggle-row">
+                    <div class="toggle-info">
+                        <span>Generative BG</span>
+                        <span class="cost-badge">+2 credits</span>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" [(ngModel)]="features.generative_background">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+
+                <div class="feature-toggle-row">
+                    <div class="toggle-info">
+                        <span>Premium Voice</span>
+                        <span class="cost-badge">+1 credit</span>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" [(ngModel)]="features.premium_tts">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+
+                <div class="feature-toggle-row">
+                    <div class="toggle-info">
+                        <span>4K Export</span>
+                        <span class="cost-badge">+1 credit</span>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" [(ngModel)]="features['4k_resolution']">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="setting-group">
+                <label>Duration ({{duration}}s)</label>
+                <input type="range" class="glass-slider" step="3" min="15" max="30" [(ngModel)]="duration">
+                <div
+                    style="font-size: 0.8rem; color: var(--text-muted); margin-top: 8px; display: flex; justify-content: space-between;">
+                    <span>Short (15s)</span>
+                    <span>Long (30s)</span>
+                </div>
+            </div>
+
+
+            <div class="setting-group">
+                <label>AI Video Model</label>
+                <select class="glass-input-sm" [(ngModel)]="videoModel">
+                    <option value="veo-3.1-fast-generate-preview">Veo 3.1 (Fast Preview)</option>
+                    <option value="veo-2.0-generate-001">Veo 2.0 (Safe / Stable)</option>
+                </select>
+                <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">
+                    {{ getModelPrice(videoModel) }}
+                </div>
+            </div>
+
+            <div class="setting-group">
+                <label>Image Provider</label>
+                <select class="glass-input-sm" [(ngModel)]="imageModel">
+                    <option value="openai">OpenAI GPT-4o + DALL-E 3</option>
+                    <option value="gemini-2.5-flash-image">Gemini 2.5 Flash Image</option>
+                    <option value="gemini-3-pro-image-preview">Gemini 3 Pro Image (Premium)</option>
+                </select>
+                <div *ngIf="imageModel === 'gemini-3-pro-image-preview'"
+                    style="font-size: 0.75rem; color: var(--accent-primary); margin-top: 4px;">
+                    +1 credit
+                </div>
+            </div>
+
+            <div class="setting-group">
+                <label>Music Vibe</label>
+                <select class="glass-input-sm" [(ngModel)]="musicMood">
+                    <option value="Energetic">Energetic (Upbeat & Pop)</option>
+                    <option value="Relaxed">Relaxed (Lo-fi & Chill)</option>
+                    <option value="Professional">Professional (Corporate)</option>
+                    <option value="Dark">Dark (Cinematic)</option>
+                </select>
+            </div>
+
+            <div class="setting-group">
+                <label>Custom Music Prompt (Optional)</label>
+                <input type="text" [(ngModel)]="customMusicPrompt" placeholder="e.g. Jazz piano with rain"
+                    class="glass-input-sm">
+            </div>
+        </div>
+    </aside>
+
+    <!-- GUIDED TOUR OVERLAY -->
+    <div class="tour-overlay" *ngIf="showTour">
+        <div class="tour-backdrop" (click)="closeTour()" [ngStyle]="backdropStyle"></div>
+        <div class="tour-card animate-zoom" [ngStyle]="tourBoxStyle">
+            <div class="tour-progress">{{ currentTourStep + 1 }} / {{ tourSteps.length }}</div>
+            <h2>{{ tourSteps[currentTourStep].title }}</h2>
+            <p [innerHTML]="tourSteps[currentTourStep].content"></p>
+            <div class="tour-actions">
+                <button class="btn-glass" (click)="closeTour()">Skip</button>
+                <button class="btn-neon small" (click)="nextTourStep()">
+                    {{ currentTourStep === tourSteps.length - 1 ? 'Got it!' : 'Next' }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

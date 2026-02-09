@@ -36,3 +36,32 @@ frontend-sa-key.json
 # All PDF files - use cloud storage or external tools instead
 *.pdf
 **/*.pdf
+
+# Large Media Files (use cloud storage instead)
+# Videos - MP4, MOV, MKV, AVI
+*.mp4
+*.mov
+*.mkv
+*.avi
+*.flv
+*.wmv
+*.webm
+*.m4v
+
+# Animations & GIFs
+*.gif
+*.gifv
+
+# Audio Files
+*.mp3
+*.wav
+*.flac
+*.aac
+*.ogg
+*.m4a
+
+# Large image files (>500KB)
+*.psd
+*.ai
+**/*large*
+**/*demo*

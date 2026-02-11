@@ -20,7 +20,7 @@ Before the push notifications will work, you **must** generate a VAPID (Voluntar
 ### Current Placeholder (Line 12):
 
 ```typescript
-private readonly VAPID_KEY = 'BNwYqPLvvhCJh_dP7VZqE9x5vF8kHJXqL4aF2JL5n0JvL4wM9yT8vP3aE6jQ9kH5nL8mT6rY2pW4eX1zV9cN3sA';
+private readonly VAPID_KEY = 'BNwYq...';
 ```
 
 Replace with your actual VAPID key from Firebase.

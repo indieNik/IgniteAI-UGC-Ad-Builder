@@ -1,7 +1,7 @@
 # Documentation Mismatch Report
 
 **Generated**: Jan 22, 2026  
-**Workspace**: `/Users/publicissapient/Projects/AI-Projects/AI UGC Ad Video Builder`
+**Workspace**: `/AI-Projects/AI UGC Ad Video Builder`
 
 ---
 

@@ -2,7 +2,7 @@ export const environment = {
     production: true,
     apiUrl: 'https://igniteai-backend-254654034407.us-central1.run.app',
     firebase: {
-        apiKey: "AIzaSyDmvzFcgDYAN-4GzZBNVsYINYymGhw_4qc",
+        apiKey: "AI...",
         authDomain: "ignite-ai-01.firebaseapp.com",
         projectId: "ignite-ai-01",
         storageBucket: "ignite-ai-01.firebasestorage.app",

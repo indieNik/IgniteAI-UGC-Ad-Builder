@@ -6,7 +6,7 @@ importScripts('https://www.gstatic.com/firebasejs/10.14.1/firebase-messaging-com
 
 // Initialize Firebase in the service worker
 firebase.initializeApp({
-    apiKey: "AIzaSyDmvzFcgDYAN-4GzZBNVsYINYymGhw_4qc",
+    apiKey: "AI...",
     authDomain: "ignite-ai-01.firebaseapp.com",
     projectId: "ignite-ai-01",
     storageBucket: "ignite-ai-01.firebasestorage.app",
